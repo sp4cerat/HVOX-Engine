@@ -1,0 +1,16 @@
+!!ARBvp1.0
+OPTION ARB_position_invariant;
+
+# Output the decal and normal map texcoords
+
+# Textures:
+# 0: normal
+# 1: detail
+# 2: glow
+
+MOV result.texcoord[0],vertex.texcoord[0];
+MUL result.texcoord[1],vertex.texcoord[0],{4.0 ,4.0 ,4,1};
+MUL result.texcoord[2],vertex.texcoord[0],{1.0 ,1.0 ,1,1};
+MOV result.color,vertex.color;
+
+END

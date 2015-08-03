@@ -1,0 +1,8 @@
+!!ARBvp1.0
+OPTION ARB_position_invariant;
+
+# Output the decal and normal map texcoords
+MOV result.texcoord[0],vertex.texcoord[0];
+MOV result.color,vertex.color;
+
+END

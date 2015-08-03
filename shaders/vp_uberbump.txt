@@ -1,0 +1,44 @@
+!!ARBvp1.0
+OPTION ARB_position_invariant;
+
+PARAM light = program.local[0];
+PARAM radius = program.local[1];
+PARAM eye = program.local[2];
+PARAM half = { 0.5, 0.5, 0.5, 0.5 };
+
+ATTRIB normal = vertex.normal;
+ATTRIB tangent = vertex.texcoord[1];
+ATTRIB binormal = vertex.texcoord[2];
+
+TEMP L, V;
+
+OUTPUT Tdecal = result.texcoord[0];
+OUTPUT Lt = result.texcoord[1];
+OUTPUT Vt = result.texcoord[2];
+OUTPUT Att = result.texcoord[3];
+
+  # Calculate light vector.
+  ADD L, light, -vertex.position;
+
+  # Transform L to tangent space
+  DP3 Lt.x, L, tangent;
+  DP3 Lt.y, L, binormal;
+  DP3 Lt.z, L, normal;
+  MOV Lt.w, 1.0;
+
+  # Calculate eye vector.
+  ADD V, eye, -vertex.position;
+
+  # Transform V to tangent space
+  DP3 Vt.x, V, tangent;
+  DP3 Vt.y, V, binormal;
+  DP3 Vt.z, V, normal;
+  MOV Vt.w, 1.0;
+
+  # Calculate attenuation.
+  MUL Att, L, radius.x;
+
+  # Output the decal and normal map texcoords
+  MOV Tdecal, vertex.texcoord[0];
+
+END

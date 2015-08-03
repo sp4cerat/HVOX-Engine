@@ -1,0 +1,94 @@
+!!ARBfp1.0
+
+PARAM color = program.local[0];
+PARAM values = { 0.5, 1, 2, 8 };
+
+ATTRIB Tdecal = fragment.texcoord[0];
+ATTRIB Lt = fragment.texcoord[1];
+ATTRIB Vt = fragment.texcoord[2];
+ATTRIB Att = fragment.texcoord[3];
+
+# Textures:
+# 0: Decal
+# 1: Height
+# 2: Normal
+# 3: Horizon
+# 4: H/E LUT
+
+TEMP N, height, decal;
+TEMP Thorizon, horizon, h_e, delta_e, shadow;
+TEMP Toffset, Ln, Vn, tmp, s, NdotL, diffuse;
+
+  # Normalize view vector.
+  DP3 tmp, Vt, Vt;
+  RSQ tmp.x, tmp.x;
+  MUL Vn, Vt, tmp.x;
+
+  # Calculate offset mapping coordinates.
+  TEX height, Tdecal, texture[1], 2D;
+  MOV result.color, height;
+  MAD tmp, height, 0.03, -0.015;
+  MAD Toffset, tmp, Vn, Tdecal;
+
+  # Fetch heading and elevation.
+  TEX h_e, Lt, texture[4], CUBE;
+
+  # Generate horizon map texcoords.
+  MOV Thorizon, Toffset;
+  MOV Thorizon.z, h_e.x;
+
+  # Fetch horizon elevation.
+  TEX horizon, Thorizon, texture[3], 3D;
+  MOV result.color, horizon;
+
+  # Generate shadow test result:
+  # Subtract horizon elevation from light elevation. If Eh > El this will be
+  # positive, otherwise it will be negative but clamped to zero. Next, multiply
+  # it by some constant to saturate it to white. We use a multiplication rather
+  # than a comparison because it produces a smooth (but steep) gray ramp rather
+  # than a hard, aliased edge.
+  ADD_SAT delta_e, h_e.wwww, -horizon.xxxx;
+  MUL_SAT shadow, delta_e, { 8, 0, 0, 0 }.xxxx;
+  MOV result.color, shadow;
+  # Add some ambient.
+  ADD_SAT shadow, shadow, { 0.3, 0.3, 0.3, 1 };
+
+  # Calculate attenuation.
+  DP3 s, Att, Att;
+  ADD_SAT s, 1.0, -s;
+  MUL shadow, shadow, s;
+
+#  MOV result.color, shadow;
+
+
+  # Fetch normal.
+  # TEX N, Toffset, texture[2], 2D;
+  # MAD N, N, values.zzzz, -values.yyyy;
+
+  # Normalize light vector.
+  DP3 tmp, Lt, Lt;
+  RSQ tmp.x, tmp.x;
+  MUL Ln, Lt, tmp.x;
+
+  # Calculate lighting.
+  DP3_SAT NdotL, N, Ln;
+
+  # Sample decal texture.
+  TEX decal, Toffset, texture[0], 2D;
+
+  # Combine lighting and decal texture.
+  MUL diffuse, NdotL, decal;
+  MUL diffuse, diffuse, color;
+
+  # Multiply with shadow.
+  # MUL result.color, diffuse, shadow;
+
+  # Calculate depth bias.
+  TEX height, Toffset, texture[1], 2D;
+  MUL height, height, N;
+  MUL tmp, height, Vn;
+  MUL tmp, tmp,fragment.position.w;
+  MUL tmp, tmp,fragment.position.w;
+  MAD result.depth, tmp, -2, fragment.position.z;
+
+END

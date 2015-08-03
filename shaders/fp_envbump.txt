@@ -1,0 +1,24 @@
+!!ARBfp1.0
+
+PARAM screenCoordDiv = program.local[0];
+
+# Textures:
+# 0: Reflection
+# 1: NormalMap
+
+TEMP Tcoord, TenvBump, Fcol, Tcol,Str;
+
+  # Eval. Texture Coord
+  MAD Tcoord,fragment.position,screenCoordDiv,{0,0,1,1};
+  TEX TenvBump,fragment.texcoord[0], texture[1], 2D;
+  MAD TenvBump,TenvBump,{2.0,2.0,2.0,1},{-1.0,-1.0,-1.0,0};
+  MAD Str,fragment.position.wwww,{7,7,7,1},{0.005,0.005,0.005,1};
+  MUL TenvBump,TenvBump,Str;
+  MAD_SAT Tcoord,TenvBump,{2.72,2.72,2.72,1},Tcoord;
+  TEX Tcol, Tcoord, texture[0], 2D;
+  ADD_SAT Tcol,Tcol,{0,0,0,1};
+  #SUB_SAT Tcol,Tcol,fragment.color.wwww;
+  MUL result.color, fragment.color,Tcol;
+  #MOV result.color,Tcol;
+
+END

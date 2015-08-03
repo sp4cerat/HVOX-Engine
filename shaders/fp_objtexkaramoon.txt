@@ -1,0 +1,22 @@
+!!ARBfp1.0
+
+TEMP texSelector,col0,col1,col2,col3,fog,negfog,col;
+
+# Textures:
+# 0: normal
+# 1: detail
+# 2: glow
+
+  TEX col0,fragment.texcoord[0], texture[0], 2D; 
+  TEX col1,fragment.texcoord[1], texture[1], 2D;
+  TEX col2,fragment.texcoord[2], texture[2], 2D;
+  MUL col,col1,col0;
+  MUL col,col,fragment.color; 
+  MAD col,col2,{2,2,2,1},col;
+  MAD_SAT fog,fragment.position.wwww,{1000,1000,1000,0},{0,0,0,1};
+  ADD_SAT negfog,{0.25, 0.07, 0.025,0},-fog;
+  MUL_SAT fog,fog,{4,4,4,1};
+  MAD_SAT result.color,col,fog,negfog;
+
+END
+   

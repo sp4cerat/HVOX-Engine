@@ -1,0 +1,35 @@
+<html>
+<body>
+<pre>
+<h1>Erstellungsprotokoll</h1>
+<h3>
+--------------------Konfiguration: HVox - Win32 Release--------------------
+</h3>
+<h3>Befehlszeilen</h3>
+Erstellen der tempor?ren Datei  "G:\DOCUME~1\Twix\LOCALS~1\Temp\RSP14B.tmp" mit Inhalten
+[
+dinput8.lib glut32.lib glu32.lib opengl32.lib glu32.lib glut32.lib glaux.lib kernel32.lib gdi32.lib user32.lib advapi32.lib gdi32.lib comdlg32.lib winspool.lib shell32.lib winmm.lib comctl32.lib ole32.lib oleaut32.lib dxguid.lib dsound.lib winmm.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/HVox.pdb" /machine:I386 /out:"Release/HVox.exe" 
+.\Release\BENCHMARK.obj
+.\Release\BMP.obj
+.\Release\ENGINE.obj
+.\Release\GFX.obj
+.\Release\HOUSE.obj
+.\Release\IOTools.obj
+.\Release\MC.obj
+.\Release\OBJ.obj
+.\Release\PBUFFER.obj
+.\Release\Vector.obj
+.\Release\WINDOW.obj
+.\Release\Winmain.obj
+]
+Erstellen der Befehlzeile "link.exe @G:\DOCUME~1\Twix\LOCALS~1\Temp\RSP14B.tmp"
+<h3>Ausgabefenster</h3>
+Linker-Vorgang l?uft...
+
+
+
+<h3>Ergebnisse</h3>
+HVox.exe - 0 Fehler, 0 Warnung(en)
+</pre>
+</body>
+</html>

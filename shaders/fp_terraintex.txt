@@ -1,0 +1,34 @@
+!!ARBfp1.0
+
+TEMP texSelector,col0,col1,col2,col3,col4,col5,fog,negfog,col;
+
+# Textures:
+# 0: grass
+# 1: rock
+# 2: sand
+# 3: 0-1-2-Selector
+# 4: detail
+
+  TEX texSelector,fragment.texcoord[3], texture[3], 2D;
+  TEX col0,fragment.texcoord[0], texture[0], 2D; 
+  TEX col1,fragment.texcoord[1], texture[1], 2D;
+  TEX col2,fragment.texcoord[2], texture[2], 2D;
+  TEX col3,fragment.texcoord[4], texture[4], 2D; # Detail0
+  TEX col4,fragment.texcoord[4], texture[5], 2D; # Detail1
+  TEX col5,fragment.texcoord[4], texture[6], 2D; # Detail2
+  MUL col0,col0,col3; 
+  MUL col1,col1,col4; 
+  MUL col2,col2,col5; 
+  MUL col0,col0,texSelector.xxxx;
+  MAD col0,col1,texSelector.yyyy,col0;
+  MAD col0,col2,texSelector.zzzz,col0;
+  MUL col,col0,fragment.color; 
+  #MOV result.color,fragment.position.z; 
+  MAD_SAT fog,fragment.position.wwww,{1000,1000,1000,0},{0,0,0,1};
+  ADD_SAT negfog,{0.4, 0.4, 0.5,0},-fog;
+  MUL_SAT fog,fog,{4,4,4,1};
+  MAD result.color,col,fog,negfog;
+
+
+END
+   

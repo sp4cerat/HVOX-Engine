@@ -1,0 +1,91 @@
+<html>
+<body>
+<pre>
+<h1>Erstellungsprotokoll</h1>
+<h3>
+--------------------Konfiguration: HVox - Win32 Release--------------------
+</h3>
+<h3>Befehlszeilen</h3>
+Erstellen der temporaren Datei  "C:\DOCUME~1\Ricola\LOCALS~1\Temp\RSPCB.tmp" mit Inhalten
+[
+/nologo /ML /w /W0 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /FR"Release/" /Fp"Release/HVox.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
+"I:\Projects\Code\hvox\source\BENCHMARK.cpp"
+"I:\Projects\Code\hvox\source\BMP.cpp"
+"I:\Projects\Code\hvox\source\ENGINE.cpp"
+"I:\Projects\Code\hvox\source\GFX.cpp"
+"I:\Projects\Code\hvox\source\HOUSE.cpp"
+"I:\Projects\Code\hvox\source\IOTools.cpp"
+"I:\Projects\Code\hvox\source\MC.cpp"
+"I:\Projects\Code\hvox\source\OBJ.cpp"
+"I:\Projects\Code\hvox\source\PBUFFER.cpp"
+"I:\Projects\Code\hvox\source\Vector.cpp"
+"I:\Projects\Code\hvox\source\WINDOW.cpp"
+"I:\Projects\Code\hvox\source\Winmain.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\Ricola\LOCALS~1\Temp\RSPCB.tmp" 
+Erstellen der temporaren Datei  "C:\DOCUME~1\Ricola\LOCALS~1\Temp\RSPCC.tmp" mit Inhalten
+[
+dinput8.lib glut32.lib glu32.lib opengl32.lib glu32.lib glut32.lib glaux.lib kernel32.lib gdi32.lib user32.lib advapi32.lib gdi32.lib comdlg32.lib winspool.lib shell32.lib winmm.lib comctl32.lib ole32.lib oleaut32.lib dxguid.lib dsound.lib winmm.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/HVox.pdb" /machine:I386 /out:"Release/HVox.exe" 
+.\Release\BENCHMARK.obj
+.\Release\BMP.obj
+.\Release\ENGINE.obj
+.\Release\GFX.obj
+.\Release\HOUSE.obj
+.\Release\IOTools.obj
+.\Release\MC.obj
+.\Release\OBJ.obj
+.\Release\PBUFFER.obj
+.\Release\Vector.obj
+.\Release\WINDOW.obj
+.\Release\Winmain.obj
+]
+Erstellen der Befehlzeile "link.exe @C:\DOCUME~1\Ricola\LOCALS~1\Temp\RSPCC.tmp"
+<h3>Ausgabefenster</h3>
+Kompilierung lauft...
+BENCHMARK.cpp
+BMP.cpp
+ENGINE.cpp
+Note: including lib: glut32.lib
+
+GFX.cpp
+Note: including lib: glut32.lib
+
+HOUSE.cpp
+IOTools.cpp
+MC.cpp
+OBJ.cpp
+Note: including lib: glut32.lib
+
+PBUFFER.cpp
+Vector.cpp
+WINDOW.cpp
+Winmain.cpp
+Note: including lib: glut32.lib
+
+Linker-Vorgang lauft...
+Erstellen der temporaren Datei  "C:\DOCUME~1\Ricola\LOCALS~1\Temp\RSPCE.tmp" mit Inhalten
+[
+/nologo /o"Release/HVox.bsc" 
+.\Release\BENCHMARK.sbr
+.\Release\BMP.sbr
+.\Release\ENGINE.sbr
+.\Release\GFX.sbr
+.\Release\HOUSE.sbr
+.\Release\IOTools.sbr
+.\Release\MC.sbr
+.\Release\OBJ.sbr
+.\Release\PBUFFER.sbr
+.\Release\Vector.sbr
+.\Release\WINDOW.sbr
+.\Release\Winmain.sbr]
+Erstellen der Befehlzeile "bscmake.exe @C:\DOCUME~1\Ricola\LOCALS~1\Temp\RSPCE.tmp"
+Browse-Informationsdatei wird erstellt...
+<h3>Ausgabefenster</h3>
+
+
+
+<h3>Ergebnisse</h3>
+HVox.exe - 0 Fehler, 0 Warnung(en)
+</pre>
+</body>
+</html>

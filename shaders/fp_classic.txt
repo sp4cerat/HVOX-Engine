@@ -1,0 +1,50 @@
+!!ARBfp1.0
+
+PARAM color = program.local[0];
+PARAM values = { 0.5, 1, 2, 8 };
+
+ATTRIB Tdecal = fragment.texcoord[0];
+ATTRIB Lt = fragment.texcoord[1];
+ATTRIB Vt = fragment.texcoord[2];
+ATTRIB Att = fragment.texcoord[3];
+
+# Textures:
+# 0: Decal
+# 1: Height
+# 2: Normal
+# 3: Horizon
+# 4: H/E LUT
+
+TEMP N, decal;
+TEMP Ln, tmp, s, NdotL, diffuse;
+
+  # Calculate attenuation.
+  DP3 s, Att, Att;
+  ADD_SAT s, 1.0, -s;
+
+  # Fetch normal.
+  TEX N, Tdecal, texture[2], 2D;
+  MAD N, N, values.zzzz, -values.yyyy;
+
+  # Normalize light vector.
+  DP3 tmp, Lt, Lt;
+  RSQ tmp.x, tmp.x;
+  MUL Ln, Lt, tmp.x;
+
+  # Calculate lighting.
+  DP3_SAT NdotL, N, Ln;
+
+  # Sample decal texture.
+  TEX decal, Tdecal, texture[0], 2D;
+
+  # Combine lighting and decal texture.
+  MUL diffuse, NdotL, decal;
+  MUL diffuse, diffuse, color;
+
+  # Multiply with attenution.
+  MUL result.color, diffuse, s;
+#  TEX N, Tdecal, texture[2], 2D;
+  #MOV result.color, diffuse;
+
+
+END

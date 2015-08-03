@@ -1,0 +1,9 @@
+Key settings:
+
+t: textures on/off
+r: random landscape
+b: benchmarks on off
+s: skydome on/off
+w: wireframe on/off
+front/back/left/right: navigate
+shift: speed-up

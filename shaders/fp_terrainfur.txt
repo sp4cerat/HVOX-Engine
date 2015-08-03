@@ -1,0 +1,47 @@
+!!ARBfp1.0
+
+OPTION ARB_fog_exp;
+
+PARAM furAlpha= program.local[2];
+
+#TEMP col0,col1,col2,mul0;
+
+# Textures
+#
+# 0 Grass
+# 1 Fur
+# 2 Select nearest
+# 3 Select normal
+
+#  TEX col0,fragment.texcoord[0], texture[0], 2D;
+#  TEX col1,fragment.texcoord[1], texture[1], 2D;
+#  TEX col2,fragment.texcoord[2], texture[2], 2D;
+#  MOV mul0,{1,1,1,1};
+#  MUL_SAT mul0.w,fragment.position.w,210;
+#  MAD_SAT mul0.w,mul0.w,col1.y, furAlpha.x;#-0.3;#
+#  MAD_SAT mul0,mul0,col0,{0.3,0.3,0.3,0};
+#  MUL result.color,col2,mul0;
+
+  TEMP mul0,grass,fur,col0,col1,col2,col3,tileOfs,tileOfsX,tileOfsY;
+  TEMP fog,negfog,col,tileOfsOnePix,texWeight;
+
+  TEX grass,fragment.texcoord[0], texture[0], 2D; # Grass
+  TEX fur  ,fragment.texcoord[1], texture[1], 2D; # Fur
+  MUL grass,grass,fur;
+ 
+  TEX tileOfs,fragment.texcoord[2], texture[2], 2D;
+  MUL tileOfsOnePix,fragment.texcoord[2],{256,256,0,0};
+  FRC tileOfsOnePix,tileOfsOnePix;
+
+  MAD tileOfs,tileOfsOnePix,{0.25,0.25,0,0},tileOfs;
+  TEX texWeight,tileOfs, texture[3], 2D;  
+  SUB texWeight,1,texWeight.gggg; 
+
+  MUL_SAT mul0.w,fragment.position.w,210;
+  MAD_SAT grass.w,mul0.w,grass.w, furAlpha.x;#-0.3;#
+
+  MUL grass.w,grass.wwww,texWeight.gggg;
+  MOV result.color,grass;
+ 
+
+END

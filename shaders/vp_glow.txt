@@ -1,0 +1,16 @@
+!!ARBvp1.0
+OPTION ARB_position_invariant;
+
+# Output the decal and normal map texcoords
+
+# Textures:
+# 0: grass
+# 1: rock
+# 2: sand
+# 3: detail
+# 4: change
+
+MOV result.texcoord[0],vertex.texcoord[0];
+MOV result.color,vertex.color;
+
+END

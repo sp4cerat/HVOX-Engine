@@ -1,0 +1,46 @@
+!!ARBvp1.0
+#OPTION ARB_position_invariant;
+
+PARAM mvp[4] = { state.matrix.mvp };
+PARAM furDist = program.local[0];
+PARAM furMov  = program.local[1];
+PARAM modelview[4] = { state.matrix.modelview[0] };
+PARAM fogparams    = state.fog.params;
+TEMP tex,col,pos,posnew,disttemp;
+
+MOV tex,{1,1,1,1};
+MUL tex.x,vertex.position.x,0.1;
+MUL tex.y,vertex.position.z,0.1;
+
+# grass
+MAD result.texcoord[1],tex,{4 ,4 ,1,1},furMov;
+MOV col,{1,1,1,1};
+
+# select
+#MUL result.texcoord[1],tex,{0.04,0.04,1,1};
+#MUL result.texcoord[0],tex,{20 ,20 ,1,1};
+MUL result.texcoord[0],tex,{0.5 ,0.5 ,1,1};
+MUL result.texcoord[2],tex,{0.005,0.005,1,1};
+MUL result.texcoord[3],tex,{0.01,0.01,1,1};
+
+# color
+#MUL result.texcoord[2],tex,{0.9 ,0.9 ,1,1};
+
+MAD pos , furDist , vertex.normal , vertex.position;
+DP4 posnew.x, mvp[0], pos;
+DP4 posnew.y, mvp[1], pos;
+DP4 posnew.z, mvp[2], pos;
+DP4 posnew.w, mvp[3], pos;
+
+MAD col.w , -0.1 , posnew.w , 1 ;
+
+MOV result.color , col; 
+
+MOV result.position,posnew;
+
+DP4 disttemp.x, modelview[2], vertex.position;
+SUB disttemp.x, fogparams.z, disttemp.x;
+MUL disttemp.x, disttemp.xxxx ,0.00004;
+MUL result.fogcoord.x, disttemp.x, fogparams.w;
+
+END
